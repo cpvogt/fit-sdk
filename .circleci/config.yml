@@ -4,9 +4,19 @@ orbs:
   maven: circleci/maven@0.0.12
   sonarcloud: sonarsource/sonarcloud@1.0.2
 
+jobs:
+  build:
+    docker:
+      - image: 'circleci/openjdk:9.0.4-12'
+    steps:
+      - checkout
+      - sonarcloud/scan
+
 workflows:
   maven_test:
     jobs:
-      - maven/test # checkout, build, test, and upload test results
+      - maven/test
+  sonar:
+    jobs:
       - build:
           context: sonarcloud
